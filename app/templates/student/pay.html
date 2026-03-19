@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Pay for Lesson{% endblock %}
+
+{% block content %}
+<h2>Pay for Lesson</h2>
+<p>Lesson with {{ lesson.instructor.first_name }} {{ lesson.instructor.last_name }} on {{ lesson.date.strftime('%Y-%m-%d %H:%M') }}</p>
+<p>Amount: $50.00</p>
+
+{% if client_secret %}
+<form id="payment-form">
+    <div id="card-element"><!--Stripe.js injects the Card Element--></div>
+    <button id="submit">Pay</button>
+    <div id="card-errors" role="alert"></div>
+</form>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+var stripe = Stripe('pk_test_...'); // From config
+var elements = stripe.elements();
+var card = elements.create('card');
+card.mount('#card-element');
+
+card.on('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+        displayError.textContent = event.error.message;
+    } else {
+        displayError.textContent = '';
+    }
+});
+
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(ev) {
+    ev.preventDefault();
+    stripe.confirmCardPayment('{{ client_secret }}', {
+        payment_method: {
+            card: card,
+            billing_details: {
+                name: 'Customer Name'
+            }
+        }
+    }).then(function(result) {
+        if (result.error) {
+            document.getElementById('card-errors').textContent = result.error.message;
+        } else {
+            if (result.paymentIntent.status === 'succeeded') {
+                window.location.href = '{{ url_for("student.lessons") }}';
+            }
+        }
+    });
+});
+</script>
+{% else %}
+<form method="POST">
+    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+</form>
+{% endif %}
+{% endblock %}

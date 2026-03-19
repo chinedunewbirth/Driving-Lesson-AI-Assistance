@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Book Lesson{% endblock %}
+
+{% block content %}
+<h2>Book a Lesson</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label for="instructor_id" class="form-label">Instructor</label>
+        <select class="form-control" id="instructor_id" name="instructor_id" required>
+            {% for instructor in instructors %}
+                <option value="{{ instructor.id }}">{{ instructor.first_name }} {{ instructor.last_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="date" class="form-label">Date</label>
+        <input type="date" class="form-control" id="date" name="date" required>
+    </div>
+    <div class="mb-3">
+        <label for="time" class="form-label">Time</label>
+        <input type="time" class="form-control" id="time" name="time" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Book Lesson</button>
+</form>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Lesson Detail{% endblock %}
+
+{% block content %}
+<h2>Lesson Detail</h2>
+<p><strong>Student:</strong> {{ lesson.student.first_name }} {{ lesson.student.last_name }}</p>
+<p><strong>Date:</strong> {{ lesson.date.strftime('%Y-%m-%d %H:%M') }}</p>
+<p><strong>Status:</strong> {{ lesson.status }}</p>
+<form method="POST">
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="notes" name="notes" rows="5">{{ lesson.notes }}</textarea>
+    </div>
+    {% if lesson.ai_feedback %}
+    <div class="mb-3">
+        <label class="form-label">AI Feedback</label>
+        <p>{{ lesson.ai_feedback }}</p>
+    </div>
+    {% endif %}
+    {% if lesson.skill_scores %}
+    <div class="mb-3">
+        <label class="form-label">Skill Scores</label>
+        <p>{{ lesson.skill_scores }}</p>
+    </div>
+    {% endif %}
+    <button type="submit" class="btn btn-primary">Update Lesson</button>
+</form>
+{% endblock %}

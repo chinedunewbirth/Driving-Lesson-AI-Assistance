@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Create Profile{% endblock %}
+
+{% block content %}
+<h2>Create Your Profile</h2>
+<form method="POST">
+    <div class="mb-3">
+        <label for="first_name" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="first_name" name="first_name" required>
+    </div>
+    <div class="mb-3">
+        <label for="last_name" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="last_name" name="last_name" required>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="phone" name="phone">
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label">Address</label>
+        <textarea class="form-control" id="address" name="address"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Create Profile</button>
+</form>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}My Lessons{% endblock %}
+
+{% block content %}
+<h2>My Lessons</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Student</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for lesson in lessons %}
+            <tr>
+                <td>{{ lesson.date.strftime('%Y-%m-%d %H:%M') }}</td>
+                <td>{{ lesson.student.first_name }} {{ lesson.student.last_name }}</td>
+                <td>{{ lesson.status }}</td>
+                <td><a href="{{ url_for('instructor.lesson_detail', lesson_id=lesson.id) }}" class="btn btn-sm btn-primary">View</a></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
